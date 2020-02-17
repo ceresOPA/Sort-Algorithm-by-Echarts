@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="main" style="width: 1800px;height: 900px;"></div>
+    <script src="js/echarts.min.js"></script>
+    <script>
+        var chart = echarts.init(document.getElementById('main'));
+        var arr = [630,489, 180, 120, 89, 56, 32,520,  467, 340, 310, 270, 240,435, 420, 369,  210];
+        chart.setOption({
+
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: arr,
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '直接访问',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: arr,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, //开启显示
+                                position: 'top', //在上方显示
+                                textStyle: { //数值样式
+                                    color: '#0984e3',
+                                    fontSize: 30
+                                }
+                            }
+                        }
+                    },
+
+                }
+            ]
+
+        })
+
+
+        var temp;
+        var min;
+        for (let i = 0; i < arr.length; i++) {
+
+            setTimeout(() => {
+                console.log(i)
+                min = i;
+                for (let j = i + 1; j < arr.length; j++) {
+
+                    console.log(j)
+                    if (arr[j] < arr[min]) {
+
+                        min = j;           
+
+                    }
+
+                }                //min代表每一轮中的最小值
+                if (min != i) {
+
+                    temp = arr[i];
+                    arr[i] = arr[min];
+                    arr[min] = temp;
+
+                }
+                chart.setOption({
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: arr,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '直接访问',
+                            type: 'bar',
+                            barWidth: '60%',
+                            data: arr,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true, //开启显示
+                                        position: 'top', //在上方显示
+                                        textStyle: { //数值样式
+                                            color: '#0984e3',
+                                            fontSize: 30
+                                        }
+                                    }
+                                }
+                            },
+
+                        }
+                    ]
+
+
+                })
+
+            }, 700 * (i+1));
+
+        }
+
+    </script>
+</body>
+
+</html>
